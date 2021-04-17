@@ -1,6 +1,6 @@
 FROM openjdk:11-jdk-buster
 
-ARG JAR_FILE=cabal-neo-admin/target/*.jar
+ARG JAR_FILE=target/*.jar
 
 COPY ${JAR_FILE} app.jar
 

@@ -33,7 +33,11 @@ jobs:
         with:
           username: ${{  secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PWD }}
+      - name: Show local files
+        uses: ls
       - name: Criando a Imagem Docker
+      - name: navigate to dir
+        uses: cd cabal-neo-backend/
         uses: docker/build-push-action@v2.3.0
         with:      
           context: cabal-neo-admin/
