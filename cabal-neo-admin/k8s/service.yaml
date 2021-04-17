@@ -4,7 +4,7 @@ metadata:
   name: api-cabal-neo-svc
 spec:
   selector:
-    app: api-cabal-neo
+    app: api-cabalneo
   ports:
     - port: 8080
       targetPort: 8080

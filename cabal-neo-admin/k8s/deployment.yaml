@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-cabal-neo
+  name: api-cabalneo
 spec:
   strategy:
     type: RollingUpdate
@@ -11,7 +11,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: consumer
+      app: api-cabalneo
   template:
     metadata:
       annotations:
@@ -19,10 +19,10 @@ spec:
         prometheus.io/path: /metrics
         prometheus.io/port: "8090"
       labels:
-        app: api-cabal-neo
+        app: api-cabalneo
     spec:
       containers:
-        - name: api-cabal-neo
+        - name: api-cabalneo
           image: jeanlucafp/cabalneobackend:1
           ports:
             - containerPort: 8080
