@@ -21,3 +21,39 @@ jobs:
         distribution: 'adopt'
     - name: Build with Maven
       run: mvn -B package --file cabal-neo-admin/pom.xml
+
+  CI:
+    needs: [build]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker Login
+        uses: docker/login-action@v1.8.0
+        with:
+          username: ${{  secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PWD }}
+      - name: Criando a Imagem Docker
+        uses: docker/build-push-action@v2.3.0
+        with:      
+          context: cabal-neo-admin/
+          file: cabal-neo-admin/Dockerfile
+          tags: |
+            jeanlucafp/cabalneobackend:${{ github.run_number }}
+          push: true
+  CD:
+    needs: [CI]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Definindo o contexto do Kubernetes
+        uses: Azure/k8s-set-context@v1
+        with:
+          kubeconfig: ${{ secrets.K8S_CONFIG }}
+      - name: Deploy API
+        uses: Azure/k8s-deploy@v1.3
+        with:
+          images: 'jeanlucafp/cabalneobackend:${{ github.run_number }}'
+          manifests: |
+            cabal-neo-admin/k8s/deployment.yaml
+            cabal-neo-admin/k8s/service.yaml        

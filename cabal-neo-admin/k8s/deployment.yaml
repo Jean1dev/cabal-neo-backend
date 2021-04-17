@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-cabal-neo
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: "25%"
+      maxUnavailable: "25%"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8090"
+      labels:
+        app: api-cabal-neo
+    spec:
+      containers:
+        - name: api-cabal-neo
+          image: jeanlucafp/cabalneobackend:1
+          ports:
+            - containerPort: 8080
+
