@@ -33,16 +33,17 @@ jobs:
         with:
           username: ${{  secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PWD }}
-      - name: Show local files
-        run: ls
       - name: navigate to dir
         run: cd cabal-neo-admin/
+      - name: Show local files
+        run: ls
       - name: Criando a Imagem Docker
         uses: docker/build-push-action@v2.3.0
         with:      
           context: .
-          file: ./Dockerfile
+          file: .
           tags: |
+            jeanlucafp/cabalneobackend:latest
             jeanlucafp/cabalneobackend:${{ github.run_number }}
           push: true
   CD:
