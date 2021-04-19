@@ -1,19 +1,19 @@
-# FROM maven:3.5-jdk-8 AS build
+FROM maven:3.6.3-jdk-11-slim AS build
 
-# COPY src .
+RUN mkdir -p /workspace
 
-# COPY pom.xml .
+WORKDIR /workspace
 
-# RUN mvn -f pom.xml clean package -Dmaven.test.skip=true
+COPY cabal-neo-admin/pom.xml /workspace
 
-FROM openjdk:11-jdk-buster
+COPY cabal-neo-admin/src /workspace/src
 
-ARG JAR_FILE=cabal-neo-admin/target/*.jar
+RUN mvn -B -f pom.xml clean package -DskipTests
 
-COPY ${JAR_FILE} app.jar
+FROM openjdk:11-jdk-slim
 
-ENV PORT 8080
+COPY --from=build /workspace/target/*.jar app.jar
 
-EXPOSE $PORT
+EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
