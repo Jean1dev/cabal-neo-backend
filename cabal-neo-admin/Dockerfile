@@ -1,4 +1,3 @@
-
 FROM maven:3.5-jdk-8 AS build
 
 COPY src .
@@ -18,4 +17,3 @@ ENV PORT 8080
 EXPOSE $PORT
 
 ENTRYPOINT ["java","-jar","/app.jar"]
-
