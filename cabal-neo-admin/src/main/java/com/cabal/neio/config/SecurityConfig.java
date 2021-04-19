@@ -51,6 +51,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers("/**/swagger-ui.html").permitAll()
+                .antMatchers(HttpMethod.GET, "/**/swagger-resources/**", "/**/webjars/springfox-swagger-ui/**", "/**/v2/api-docs/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/usuario-gerenciador").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/usuario-gerenciador").permitAll()
                 .anyRequest().authenticated()
