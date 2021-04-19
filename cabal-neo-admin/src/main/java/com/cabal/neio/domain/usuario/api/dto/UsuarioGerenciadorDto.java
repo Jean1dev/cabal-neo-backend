@@ -10,16 +10,16 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class UsuarioGerenciadorDto {
 
-    @ApiModelProperty(value = "Nome do usuario")
+    @ApiModelProperty(value = "Nome do usuario", required = true)
     private String nome;
 
     @ApiModelProperty(value = "Email do usuario")
     private String email;
 
-    @ApiModelProperty(value = "usuario que sera usado no login")
+    @ApiModelProperty(value = "usuario que sera usado no login", required = true)
     private String usario;
 
-    @ApiModelProperty(value = "senha usada no login")
+    @ApiModelProperty(value = "senha usada no login", required = true)
     @NotNull
     private String senha;
 }
